@@ -43,7 +43,7 @@
     :if ($Ignore = 0) do={
       :log debug ("Fetching script from url: " . $ScriptVal->"name");
       :do {
-        :local Result [ / tool fetch check-certificate=yes-without-crl \
+        :local Result [ / tool fetch \
             ($ScriptUpdatesBaseUrl . $ScriptVal->"name" . $ScriptUpdatesUrlSuffix) \
             output=user as-value ];
         :if ($Result->"status" = "finished") do={
@@ -89,7 +89,7 @@
 
   :log debug ("Fetching changelog.");
   :do {
-    :local Result [ / tool fetch check-certificate=yes-without-crl \
+    :local Result [ / tool fetch \
         ($ScriptUpdatesBaseUrl . "global-config.changes" . $ScriptUpdatesUrlSuffix) \
         output=user as-value ];
     :if ($Result->"status" = "finished") do={
