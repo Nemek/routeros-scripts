@@ -15,8 +15,8 @@
 # These addresses are used to send e-mails to. The to-address needs
 # to be filled; cc-address can be empty, one address or a comma
 # separated list of addresses.
-:global EmailGeneralTo "mail@example.com";
-:global EmailGeneralCc "another@example.com";
+:global EmailGeneralTo "nemesis.ath@gmail.com";
+:global EmailGeneralCc "";
 
 # You can send Telegram notifications. Register a bot
 # and add the token and chat ids here.
@@ -30,8 +30,8 @@
 :global BackupSendExport true;
 :global BackupPassword "v3ry-s3cr3t";
 # These addresses are used to send backup and config export files to.
-:global EmailBackupTo "mail@example.com";
-:global EmailBackupCc "another@example.com";
+:global EmailBackupTo "nemesis.ath@gmail.com";
+:global EmailBackupCc "";
 # These credentials are used to upload backup and config export files.
 # SFTP authentication is tricky, you may have to limit authentication
 # methods for your SSH server.
@@ -73,53 +73,16 @@
     "String"; "Whistle" }
 }
 
-# Run different commands with multiple mode-button presses.
-:global ModeButton {
-  1="/ system script run leds-toggle-mode;";
-  2=":global SendNotification; :global Identity; \$SendNotification (\"Hello...\") (\"Hello world, \" . \$Identity . \" calling!\");";
-  3="/ system shutdown;";
-  4="/ system reboot;";
-  5="/ system script run bridge-port-toggle;";
-# add more here...
-};
-
-# Run commands on SMS action.
-:global SmsAction {
-  bridge-port-toggle="/ system script run bridge-port-toggle;";
-  reboot="/ system reboot;";
-  shutdown="/ system shutdown;";
-# add more here...
-};
-
 # This address should resolve ntp servers and is used to update
 # ntp settings. A pool can rotate servers.
 :global NtpPool "pool.ntp.org";
 
-# This is the address used to send gps data to.
-:global GpsTrackUrl "https://example.com/index.php";
-
 # Enable this to fetch scripts from given url.
 :global ScriptUpdatesFetch true;
-:global ScriptUpdatesBaseUrl "https://git.eworm.de/cgit/routeros-scripts/plain/";
-#:global ScriptUpdatesBaseUrl "https://raw.githubusercontent.com/eworm-de/routeros-scripts/master/";
-#:global ScriptUpdatesBaseUrl "https://gitlab.com/eworm-de/routeros-scripts/raw/master/";
+:global ScriptUpdatesBaseUrl "https://raw.githubusercontent.com/Nemek/routeros-scripts/master/";
 :global ScriptUpdatesUrlSuffix "";
 :global ScriptUpdatesIgnore {
   "global-config"
 }
 # Enable this to silence all configuration warnings.
 :global ScriptUpdatesConfigChangesIgnore false;
-# This project is developed in private spare time and usage is free of charge
-# for you. If you like the scripts and think this is of value for you or your
-# business please consider a donation:
-# https://git.eworm.de/cgit/routeros-scripts/about/#donate
-# Enable this to silence donation hint.
-:global IDonate false;
-
-# Use this for certificate auto-renew
-:global CertRenewUrl "";
-#:global CertRenewUrl "https://example.com/certificates/";
-:global CertRenewPass {
-  "v3ry-s3cr3t";
-  "4n0th3r-s3cr3t";
-}

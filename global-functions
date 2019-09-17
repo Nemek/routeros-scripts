@@ -60,35 +60,6 @@
   :return ($Return . $String);
 }
 
-# check and import required certificates
-:global CertificateAvailable do={
-  :local CommonName [ :tostr $1 ];
-
-  :global ScriptUpdatesBaseUrl;
-  :global ScriptUpdatesUrlSuffix;
-
-  :global UrlEncode;
-  :global WaitForFile;
-
-  :if ([ / certificate print count-only where common-name=$CommonName ] = 0) do={
-    :log info ("Certificate with CommonName " . $CommonName . \
-      " not available, downloading and importing.");
-    :do {
-      :local LocalFileName ($CommonName . ".pem");
-      :local UrlFileName ([ $UrlEncode $CommonName ] . ".pem");
-      / tool fetch check-certificate=yes-without-crl \
-        ($ScriptUpdatesBaseUrl . "certs/" . \
-        $UrlFileName . $ScriptUpdatesUrlSuffix) \
-        dst-path=$LocalFileName;
-      $WaitForFile $LocalFileName;
-      / certificate import file-name=$LocalFileName passphrase="";
-      / file remove $LocalFileName;
-    } on-error={
-      :log warning "Failed imprting certificate!";
-    }
-  }
-}
-
 # send notification via e-mail
 :global SendEMail do={
   :local Subject [ :tostr $1 ];
@@ -160,12 +131,9 @@
 :global GetMacVendor do={
   :local Mac [ :tostr $1 ];
 
-  :global CertificateAvailable;
-
   :do {
     :local Vendor;
-    $CertificateAvailable "Let's Encrypt Authority X3";
-    :set Vendor ([ / tool fetch check-certificate=yes-without-crl \
+    :set Vendor ([ / tool fetch \
         ("https://api.macvendors.com/" . [ :pick $Mac 0 8 ]) output=user as-value ]->"data");
     :return $Vendor;
   } on-error={
@@ -199,7 +167,6 @@
   :local PkgArch [ :tostr $3 ];
   :local PkgDir  [ :tostr $4 ];
 
-  :global CertificateAvailable;
   :global CleanFilePath;
   :global WaitForFile;
 
@@ -213,9 +180,8 @@
   }
   :local PkgDest [ $CleanFilePath ($PkgDir . "/" . $PkgFile) ];
 
-  $CertificateAvailable "Let's Encrypt Authority X3";
   :do {
-    / tool fetch check-certificate=yes-without-crl \
+    / tool fetch \
       ("https://upgrade.mikrotik.com/routeros/" . $PkgVer . "/" . $PkgFile) \
       dst-path=$PkgDest;
     $WaitForFile $PkgDest;
