@@ -9,7 +9,7 @@
 :global GlobalConfigVersion 8;
 
 # This is used for DNS and backup file.
-:global Domain "example.com";
+:global Domain "";
 :global HostNameInZone true;
 
 # These addresses are used to send e-mails to. The to-address needs
