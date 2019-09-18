@@ -26,7 +26,7 @@
 #:global TelegramChatId "12345678";
 
 # This defines what backups to generate and what password to use.
-:global BackupSendBinary false;
+:global BackupSendBinary true;
 :global BackupSendExport true;
 :global BackupPassword "v3ry-s3cr3t";
 # These addresses are used to send backup and config export files to.
